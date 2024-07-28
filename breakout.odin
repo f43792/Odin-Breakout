@@ -1,11 +1,12 @@
 package breakout
 
-// https://youtu.be/vfgZOEvO0kM?t=3863
+// https://youtu.be/vfgZOEvO0kM?t=5864
 
 import "core:fmt"
 // import "core:strings"
 import "core:math"
 import "core:math/linalg"
+import "core:math/rand"
 import rl "vendor:raylib"
 
 WIN_SIZE                :: 960
@@ -63,7 +64,7 @@ ball_pos        : rl.Vector2
 ball_dir        : rl.Vector2
 // ball            : BALL
 started         : bool
-// game_over       : bool
+game_over       : bool
 score           : int
 
 // BALL :: struct {
@@ -104,6 +105,7 @@ restart :: proc() {
     ball_pos = { SCREEN_SIZE/2, BALL_START_Y }
     started = false
     score = 0
+    game_over = false
 
     for x in 0..<NUM_BLOCKS_X {
         for y in 0..<NUM_BLOCKS_Y {
@@ -140,10 +142,14 @@ main :: proc() {
     rl.SetConfigFlags({ .VSYNC_HINT })    
     rl.InitWindow(WIN_SIZE, WIN_SIZE, "Breakout!")
     // rl.SetWindowPosition(0, 35)
+    rl.InitAudioDevice()
     rl.SetTargetFPS(500)
 
     ball_texture := rl.LoadTexture("ball.png")
     paddle_texture := rl.LoadTexture("paddle.png")
+    hit_block_sound := rl.LoadSound("hit_block_2.wav")
+    hit_paddle_sound := rl.LoadSound("hit_paddle.wav")
+    game_over_sound := rl.LoadSound("game_over.wav")
     
     restart()
 
@@ -243,7 +249,7 @@ main :: proc() {
             if collision_normal != 0 {
                 ball_dir = reflect(ball_dir, linalg.normalize(collision_normal))
             }
-
+            rl.PlaySound(hit_paddle_sound)
         }
 
         block_x_loop: for x in 0..< NUM_BLOCKS_X {
@@ -295,8 +301,9 @@ main :: proc() {
                     blocks[x][y] = false
                     row_color := row_colors[y]
                     score += block_color_score[row_color]
+                    rl.SetSoundPitch(hit_block_sound, rand.float32_range(0.8, 1.35))
+                    rl.PlaySound(hit_block_sound)
                     break block_x_loop
-
                 }
 
             }
@@ -365,11 +372,15 @@ main :: proc() {
         }
 
         if ball_pos.y - BALL_RADIUS > SCREEN_SIZE + BALL_RADIUS * 2 {
+            if !game_over {
+                game_over = true
+                rl.PlaySound(game_over_sound)
+            }
             loose()
         }
         
         score_text := fmt.ctprintf("%d", score)
-        rl.DrawText(score_text, 5, 5, 10, rl.GetColor(0xFFFFFFFF))
+        rl.DrawText(score_text, 5, 5, 10, rl.WHITE)
 
         rl.EndMode2D()
         rl.EndDrawing()
@@ -377,5 +388,6 @@ main :: proc() {
         free_all(context.temp_allocator)
     }
 
-   rl.CloseWindow()
+    rl.CloseAudioDevice()
+    rl.CloseWindow()
 }
