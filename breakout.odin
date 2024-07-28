@@ -72,6 +72,7 @@ accumulated_time            : f32
 previous_ball_position      : rl.Vector2
 previous_paddle_position_x  : f32
 fallow_paddle               : bool = false
+game_win                    : bool = false
 
 
 // BALL :: struct {
@@ -132,6 +133,7 @@ restart :: proc() {
     BALL_SPEED = f32(200.0)
     BALL_INCREMENT_SPEED = f32(0.5)
     fallow_paddle = false
+    game_win = false
 
     for x in 0..<NUM_BLOCKS_X {
         for y in 0..<NUM_BLOCKS_Y {
@@ -189,6 +191,7 @@ main :: proc() {
     hit_block_sound := rl.LoadSound("hit_block_2.wav")
     hit_paddle_sound := rl.LoadSound("hit_paddle.wav")
     game_over_sound := rl.LoadSound("game_over.wav")
+    game_win_sound := rl.LoadSound("game_win.wav")
     
     restart()
 
@@ -446,8 +449,12 @@ main :: proc() {
         }
 
         if remaining_blocks() <= 0 {
-            fallow_paddle = true
-            BALL_INCREMENT_SPEED = 0.0
+            if !game_win {
+                game_win = true
+                fallow_paddle = true
+                BALL_INCREMENT_SPEED = 0.0
+                rl.PlaySound(game_win_sound)
+            }
             win()
         }
         
