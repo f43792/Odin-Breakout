@@ -3,24 +3,25 @@ package breakout
 // https://youtu.be/vfgZOEvO0kM?t=3863
 
 import "core:fmt"
-import "core:strings"
+// import "core:strings"
 import "core:math"
 import "core:math/linalg"
 import rl "vendor:raylib"
 
-WIN_SIZE        :: 960
-SCREEN_SIZE     :: 320
-PADDLE_WIDTH    :: 50
-PADDLE_HEIGHT   :: 8
-PADDLE_POS_Y    :: 260
-PADDLE_SPEED    :: 200
-BALL_SPEED      :: 260
-BALL_RADIUS     :: 4
-BALL_START_Y    :: 160
-NUM_BLOCKS_X    :: 10
-NUM_BLOCKS_Y    :: 8
-BLOCK_WIDTH     :: 28
-BLOCK_HEIGHT    :: 10
+WIN_SIZE                :: 960
+SCREEN_SIZE             :: 320
+PADDLE_WIDTH            :: 50
+PADDLE_HEIGHT           :: 8
+PADDLE_POS_Y            :: 300
+PADDLE_SPEED            :: 200
+BALL_SPEED              :f32 = 200.0
+BALL_INCREMENT_SPEED    :: 0.5
+BALL_RADIUS             :: 4
+BALL_START_Y            :: 160
+NUM_BLOCKS_X            :: 10
+NUM_BLOCKS_Y            :: 8
+BLOCK_WIDTH             :: 28
+BLOCK_HEIGHT            :: 10
 
 Block_Color :: enum {
     Yellow,
@@ -62,6 +63,7 @@ ball_pos        : rl.Vector2
 ball_dir        : rl.Vector2
 // ball            : BALL
 started         : bool
+// game_over       : bool
 score           : int
 
 // BALL :: struct {
@@ -84,15 +86,17 @@ score           : int
 // }
 
 loose :: proc () {
-    //DT := strings.clone_to_cstring(fmt.aprintf("dt: %.5f", dt))
-    TXTX :i32= SCREEN_SIZE / 5
-    TXTSIZE :: 30
-    rl.DrawText("YOU LOOSE!", TXTX, TXTX, TXTSIZE, {24, 24, 42, 255})
-    rl.DrawText("PRESS SPACE TO RESTART", TXTX - 10, TXTX + 70, TXTSIZE / 2, {24, 24, 42, 255})
+    FontSIZE :: 12
+    TxtLine1 :: "YOU LOOSE!"
+    T1Width := rl.MeasureText(TxtLine1, FontSIZE * 2)
+    TxtLine2 := fmt.ctprintf("Final Score: %v. PRESS [SPACE] to restart", score)
+    DynColorHUE := f32(rl.GetTime() * 200)
+    T2Width := rl.MeasureText(TxtLine2, FontSIZE)
+    rl.DrawText(TxtLine1, SCREEN_SIZE/2 - T1Width/2, BALL_START_Y - 30, FontSIZE * 2, rl.ColorFromHSV(DynColorHUE, 1.0, 1.0))
+    rl.DrawText(TxtLine2, SCREEN_SIZE/2 - T2Width/2, BALL_START_Y, FontSIZE, rl.ColorFromHSV(DynColorHUE + 150, 1.0, 1.0))
     if rl.IsKeyPressed( .SPACE ) {
         restart()
     }
-    // started = false
 }
 
 restart :: proc() {
@@ -111,6 +115,7 @@ restart :: proc() {
 
 reflect :: proc(dir, normal: rl.Vector2) -> rl.Vector2 {
     new_dir := linalg.reflect(dir, linalg.normalize(normal))
+    BALL_SPEED += BALL_INCREMENT_SPEED
     return linalg.normalize(new_dir)
 }
 
@@ -307,7 +312,7 @@ main :: proc() {
 
         if show_info {
             rl.DrawFPS(10, 10)
-            DT := strings.clone_to_cstring(fmt.aprintf("dt: %.5f", dt))
+            DT := fmt.ctprintf("dt: %.5f", dt)
             rl.DrawText(DT, 10, 30, 20, {24, 24, 42, 255})
         }
 
@@ -344,8 +349,8 @@ main :: proc() {
                 // rl.DrawRectangleRec(block_rect, {u8(45 + y * 3), 45, u8(45 + x * 3), 255})
                 rl.DrawRectangleRec(block_rect, block_color_values[row_colors[y]])
                 
-                lineThickness : f32 = 0.25
-                borderColor : rl.Color = rl.GetColor(0x3d0090ff)
+                lineThickness : f32 = 0.50
+                borderColor : rl.Color = rl.ColorFromHSV(f32(rl.GetTime() * 50), 1.0, 1.0) //rl.GetColor(0x3d0090ff)
                 rl.DrawLineEx(top_left, top_right, lineThickness, borderColor)
                 rl.DrawLineEx(top_left, bottom_left, lineThickness, borderColor)
                 rl.DrawLineEx(bottom_left, bottom_right, lineThickness, borderColor)
@@ -354,11 +359,11 @@ main :: proc() {
             }
         }
 
-        if ball_pos.y - BALL_RADIUS > SCREEN_SIZE {
+        if ball_pos.y - BALL_RADIUS > SCREEN_SIZE + BALL_RADIUS * 2 {
             loose()
         }
         
-        score_text := fmt.ctprintf("Points: %d", score)
+        score_text := fmt.ctprintf("%d", score)
         rl.DrawText(score_text, 5, 5, 10, rl.GetColor(0xFFFFFFFF))
 
         rl.EndMode2D()
