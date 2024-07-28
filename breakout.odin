@@ -5,7 +5,7 @@ package breakout
 // About better timestamps:"https://gafferongames.com/post/fix_your_timestep/"
 
 import "core:fmt"
-// import "core:strings"
+import "core:strings"
 import "core:math"
 import "core:math/linalg"
 import "core:math/rand"
@@ -25,6 +25,7 @@ NUM_BLOCKS_X            :: 10
 NUM_BLOCKS_Y            :: 8
 BLOCK_WIDTH             :: 28
 BLOCK_HEIGHT            :: 10
+RSC_FOLDER              :string: "rsc/"
 
 Block_Color :: enum {
     Yellow,
@@ -186,12 +187,12 @@ main :: proc() {
     rl.SetTargetFPS(500)
     rl.HideCursor()
 
-    ball_texture := rl.LoadTexture("media/ball.png")
-    paddle_texture := rl.LoadTexture("media/paddle.png")
-    hit_block_sound := rl.LoadSound("media/hit_block_2.wav")
-    hit_paddle_sound := rl.LoadSound("media/hit_paddle.wav")
-    game_over_sound := rl.LoadSound("media/game_over.wav")
-    game_win_sound := rl.LoadSound("media/game_win.wav")
+    ball_texture := rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "ball.png"})))
+    paddle_texture := rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "paddle.png"})))
+    hit_block_sound := rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "hit_block_2.wav"})))
+    hit_paddle_sound := rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "hit_paddle.wav"})))
+    game_over_sound := rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "game_over.wav"})))
+    game_win_sound := rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "game_win.wav"})))
     
     restart()
 
