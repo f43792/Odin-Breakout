@@ -433,10 +433,11 @@ main :: proc() {
                 
                 lineThickness : f32 = 0.50
                 // borderColor : rl.Color = rl.ColorFromHSV(f32(rl.GetTime() * 50), 1.0, 1.0) //rl.GetColor(0x3d0090ff)
-                rl.DrawLineEx(top_left, top_right, lineThickness, rl.WHITE)
-                rl.DrawLineEx(top_left, bottom_left, lineThickness, rl.WHITE)
-                rl.DrawLineEx(bottom_left, bottom_right, lineThickness, rl.GRAY)
-                rl.DrawLineEx(top_right, bottom_right, lineThickness, rl.GRAY)
+                rl.DrawLineEx(top_left, top_right, lineThickness, rl.ColorAlpha(rl.WHITE, 1.0))
+                rl.DrawLineEx(top_left, bottom_left, lineThickness, rl.ColorAlpha(rl.WHITE, 1.0))
+                lineThickness = 0.9
+                rl.DrawLineEx(bottom_left, bottom_right, lineThickness, rl.ColorAlpha(rl.GRAY, 0.85))
+                rl.DrawLineEx(top_right, bottom_right, lineThickness, rl.ColorAlpha(rl.GRAY, 0.85))
 
             }
         }
