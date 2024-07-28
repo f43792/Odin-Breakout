@@ -112,11 +112,11 @@ loose :: proc () {
 win :: proc () {
     FontSIZE :: 12
     TxtLine1 :: "YOU WIN!!!"
-    T1Width := rl.MeasureText(TxtLine1, FontSIZE * 2)
+    T1Width := rl.MeasureText(TxtLine1, FontSIZE * 3)
     TxtLine2 := fmt.ctprintf("Final Score: %v. PRESS [SPACE] to restart", score)
-    DynColorHUE := f32(rl.GetTime() * 200)
     T2Width := rl.MeasureText(TxtLine2, FontSIZE)
-    rl.DrawText(TxtLine1, SCREEN_SIZE/2 - T1Width/2, BALL_START_Y - 30, FontSIZE * 2, rl.ColorFromHSV(DynColorHUE, 1.0, 1.0))
+    DynColorHUE := f32(rl.GetTime() * 200)
+    rl.DrawText(TxtLine1, SCREEN_SIZE/2 - T1Width/2, BALL_START_Y - 40, FontSIZE * 3, rl.ColorFromHSV(DynColorHUE, 1.0, 1.0))
     rl.DrawText(TxtLine2, SCREEN_SIZE/2 - T2Width/2, BALL_START_Y, FontSIZE, rl.ColorFromHSV(DynColorHUE + 150, 1.0, 1.0))
     if rl.IsKeyPressed( .SPACE ) {
         restart()
