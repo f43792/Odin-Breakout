@@ -141,6 +141,9 @@ main :: proc() {
     rl.InitWindow(WIN_SIZE, WIN_SIZE, "Breakout!")
     // rl.SetWindowPosition(0, 35)
     rl.SetTargetFPS(500)
+
+    ball_texture := rl.LoadTexture("ball.png")
+    paddle_texture := rl.LoadTexture("paddle.png")
     
     restart()
 
@@ -317,8 +320,10 @@ main :: proc() {
         }
 
 
-        rl.DrawRectangleRec(paddle_rect, {50, 150, 90, 255})
-        rl.DrawCircleV(ball_pos, BALL_RADIUS, {200, 90, 20, 255})
+        // rl.DrawRectangleRec(paddle_rect, {50, 150, 90, 255})
+        rl.DrawTextureV(paddle_texture, {paddle_pos_x, PADDLE_POS_Y}, rl.WHITE)
+        // rl.DrawCircleV(ball_pos, BALL_RADIUS, {200, 90, 20, 255})
+        rl.DrawTextureV(ball_texture, ball_pos - {BALL_RADIUS, BALL_RADIUS}, rl.WHITE)
         // draw_ball(ball)
         PAD :: 10
 
