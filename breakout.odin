@@ -186,12 +186,12 @@ main :: proc() {
     rl.SetTargetFPS(500)
     rl.HideCursor()
 
-    ball_texture := rl.LoadTexture("ball.png")
-    paddle_texture := rl.LoadTexture("paddle.png")
-    hit_block_sound := rl.LoadSound("hit_block_2.wav")
-    hit_paddle_sound := rl.LoadSound("hit_paddle.wav")
-    game_over_sound := rl.LoadSound("game_over.wav")
-    game_win_sound := rl.LoadSound("game_win.wav")
+    ball_texture := rl.LoadTexture("media/ball.png")
+    paddle_texture := rl.LoadTexture("media/paddle.png")
+    hit_block_sound := rl.LoadSound("media/hit_block_2.wav")
+    hit_paddle_sound := rl.LoadSound("media/hit_paddle.wav")
+    game_over_sound := rl.LoadSound("media/game_over.wav")
+    game_win_sound := rl.LoadSound("media/game_win.wav")
     
     restart()
 
@@ -310,7 +310,7 @@ main :: proc() {
                 if collision_normal != 0 {
                     ball_dir = reflect(ball_dir, linalg.normalize(collision_normal))
                 }
-                rl.PlaySound(hit_paddle_sound)
+                if !game_win { rl.PlaySound(hit_paddle_sound) }
             }
 
             block_x_loop: for x in 0..< NUM_BLOCKS_X {
