@@ -18,7 +18,7 @@ PADDLE_HEIGHT           :: 8
 PADDLE_POS_Y            :: 300
 PADDLE_SPEED            :: 200
 BALL_SPEED              :f32 = 200.0
-BALL_INCREMENT_SPEED    :: 0.5
+BALL_INCREMENT_SPEED    :f32 = 0.5
 BALL_RADIUS             :: 4
 BALL_START_Y            :: 160
 NUM_BLOCKS_X            :: 10
@@ -71,6 +71,7 @@ score                       : int
 accumulated_time            : f32
 previous_ball_position      : rl.Vector2
 previous_paddle_position_x  : f32
+fallow_paddle               : bool = false
 
 
 // BALL :: struct {
@@ -128,6 +129,9 @@ restart :: proc() {
     started = false
     score = 0
     game_over = false
+    BALL_SPEED = f32(200.0)
+    BALL_INCREMENT_SPEED = f32(0.5)
+    fallow_paddle = false
 
     for x in 0..<NUM_BLOCKS_X {
         for y in 0..<NUM_BLOCKS_Y {
@@ -178,6 +182,7 @@ main :: proc() {
     // rl.SetWindowPosition(0, 35)
     rl.InitAudioDevice()
     rl.SetTargetFPS(500)
+    rl.HideCursor()
 
     ball_texture := rl.LoadTexture("ball.png")
     paddle_texture := rl.LoadTexture("paddle.png")
@@ -241,7 +246,11 @@ main :: proc() {
         
             if rl.IsKeyPressed( .F5 ) {
                 restart()
-            }        
+            } 
+            
+            if rl.IsKeyPressed(.F1) {
+                fallow_paddle = !fallow_paddle
+            }
         
             if rl.IsKeyDown(.LEFT) {
                 paddle_move_velocity -= PADDLE_SPEED
@@ -254,10 +263,18 @@ main :: proc() {
 
 
             paddle_pos_x += paddle_move_velocity * DT
+            
+            // if use_mouse_x {
+            //     paddle_pos_x = f32(rl.GetMouseX()) - PADDLE_WIDTH / 2
+            //     // fmt.print(paddle_pos_x)
+            // }
+            
             paddle_pos_x = clamp(paddle_pos_x, 0, SCREEN_SIZE - PADDLE_WIDTH)
 
             //////////////////// SHEAT
-            // paddle_pos_x = ball_pos.x - PADDLE_WIDTH / 2
+            if fallow_paddle {
+                paddle_pos_x = ball_pos.x - (PADDLE_WIDTH / 2)
+            }
 
             paddle_rect := rl.Rectangle {
                 paddle_pos_x, PADDLE_POS_Y, PADDLE_WIDTH, PADDLE_HEIGHT,
@@ -411,11 +428,11 @@ main :: proc() {
                 rl.DrawRectangleRec(block_rect, block_color_values[row_colors[y]])
                 
                 lineThickness : f32 = 0.50
-                borderColor : rl.Color = rl.ColorFromHSV(f32(rl.GetTime() * 50), 1.0, 1.0) //rl.GetColor(0x3d0090ff)
-                rl.DrawLineEx(top_left, top_right, lineThickness, borderColor)
-                rl.DrawLineEx(top_left, bottom_left, lineThickness, borderColor)
-                rl.DrawLineEx(bottom_left, bottom_right, lineThickness, borderColor)
-                rl.DrawLineEx(top_right, bottom_right, lineThickness, borderColor)
+                // borderColor : rl.Color = rl.ColorFromHSV(f32(rl.GetTime() * 50), 1.0, 1.0) //rl.GetColor(0x3d0090ff)
+                rl.DrawLineEx(top_left, top_right, lineThickness, rl.WHITE)
+                rl.DrawLineEx(top_left, bottom_left, lineThickness, rl.WHITE)
+                rl.DrawLineEx(bottom_left, bottom_right, lineThickness, rl.GRAY)
+                rl.DrawLineEx(top_right, bottom_right, lineThickness, rl.GRAY)
 
             }
         }
@@ -429,6 +446,8 @@ main :: proc() {
         }
 
         if remaining_blocks() <= 0 {
+            fallow_paddle = true
+            BALL_INCREMENT_SPEED = 0.0
             win()
         }
         
@@ -441,6 +460,7 @@ main :: proc() {
         free_all(context.temp_allocator)
     }
 
+    rl.ShowCursor()
     rl.CloseAudioDevice()
     rl.CloseWindow()
 }
