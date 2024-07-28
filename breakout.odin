@@ -2,6 +2,8 @@ package breakout
 
 // https://youtu.be/vfgZOEvO0kM?t=5864
 
+// About better timestamps:"https://gafferongames.com/post/fix_your_timestep/"
+
 import "core:fmt"
 // import "core:strings"
 import "core:math"
@@ -104,6 +106,20 @@ loose :: proc () {
     }
 }
 
+win :: proc () {
+    FontSIZE :: 12
+    TxtLine1 :: "YOU WIN!!!"
+    T1Width := rl.MeasureText(TxtLine1, FontSIZE * 2)
+    TxtLine2 := fmt.ctprintf("Final Score: %v. PRESS [SPACE] to restart", score)
+    DynColorHUE := f32(rl.GetTime() * 200)
+    T2Width := rl.MeasureText(TxtLine2, FontSIZE)
+    rl.DrawText(TxtLine1, SCREEN_SIZE/2 - T1Width/2, BALL_START_Y - 30, FontSIZE * 2, rl.ColorFromHSV(DynColorHUE, 1.0, 1.0))
+    rl.DrawText(TxtLine2, SCREEN_SIZE/2 - T2Width/2, BALL_START_Y, FontSIZE, rl.ColorFromHSV(DynColorHUE + 150, 1.0, 1.0))
+    if rl.IsKeyPressed( .SPACE ) {
+        restart()
+    }
+}
+
 restart :: proc() {
     paddle_pos_x = SCREEN_SIZE / 2 - PADDLE_WIDTH / 2
     previous_paddle_position_x = paddle_pos_x
@@ -142,6 +158,18 @@ block_exists :: proc(x, y: int) -> bool {
     }
 
     return blocks[x][y]
+}
+
+remaining_blocks :: proc() -> int {
+    total_blocks_found : int = 0
+    for x in 0..<NUM_BLOCKS_X {
+        for y in 0..<NUM_BLOCKS_Y {
+            if blocks[x][y] == true {
+                total_blocks_found += 1
+            }
+        }
+    }
+    return total_blocks_found
 }
 
 main :: proc() {
@@ -398,6 +426,10 @@ main :: proc() {
                 rl.PlaySound(game_over_sound)
             }
             loose()
+        }
+
+        if remaining_blocks() <= 0 {
+            win()
         }
         
         score_text := fmt.ctprintf("%d", score)
