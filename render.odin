@@ -73,4 +73,11 @@ render :: proc(gs: ^Game_State) {
 
         }
     }
+
+    check_game_status(gs)
+
+    draw_score(gs)
+
+    rl.EndMode2D()
+    rl.EndDrawing()
 }

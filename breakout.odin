@@ -91,13 +91,6 @@ main :: proc() {
 
         render(&game_state)
 
-        check_game_status(&game_state)
-        
-        draw_score(&game_state)
-
-        rl.EndMode2D()
-        rl.EndDrawing()
-
         free_all(context.temp_allocator)
     }
 
