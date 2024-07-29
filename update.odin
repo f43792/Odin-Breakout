@@ -70,6 +70,18 @@ update :: proc(gs: ^Game_State) {
             paddle_move_velocity += PADDLE_SPEED
         }
 
+        if rl.IsKeyPressed( .KP_ADD ) {
+            BALL_SPEED += 25.0
+        }
+
+        if rl.IsKeyPressed( .KP_SUBTRACT ) {
+            BALL_SPEED -= 25.0
+        }
+
+        if rl.IsKeyPressed( .KP_0 ) {
+            BALL_SPEED = 200.0
+        }
+
 
 
         gs.paddle_pos_x += paddle_move_velocity * gs.DT
