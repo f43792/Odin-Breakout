@@ -38,9 +38,10 @@ reflect :: proc(dir, normal: rl.Vector2) -> rl.Vector2 {
 
 calc_block_rect :: proc(x, y : int) -> rl.Rectangle {
     PAD :: 1
+    X := (SCREEN_SIZE / 2) - ((NUM_BLOCKS_X * (BLOCK_WIDTH + PAD)) / 2)
     return {
-        f32(20 + x * (BLOCK_WIDTH + PAD)),
-        f32(40 + y * (BLOCK_HEIGHT + PAD)),
+        f32(X + x * (BLOCK_WIDTH + PAD)),
+        f32(35 + y * (BLOCK_HEIGHT + PAD)),
         BLOCK_WIDTH - PAD, // - 1,
         BLOCK_HEIGHT - PAD, // - 1
     }

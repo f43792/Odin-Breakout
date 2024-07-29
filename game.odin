@@ -2,7 +2,17 @@ package breakout
 
 import rl "vendor:raylib"
 
+Block_Color :: enum {
+    Yellow,
+    Green,
+    Orange,
+    Red,
+    Purple,
+}
+
 row_colors := [NUM_BLOCKS_Y]Block_Color {
+    .Purple,
+    .Purple,
     .Red,
     .Red,
     .Orange,
@@ -10,7 +20,7 @@ row_colors := [NUM_BLOCKS_Y]Block_Color {
     .Green,
     .Green,
     .Yellow,
-    .Yellow
+    .Yellow,
 }
 
 block_color_values := [Block_Color]rl.Color {
@@ -18,6 +28,7 @@ block_color_values := [Block_Color]rl.Color {
     .Orange = { 255, 163, 0, 255 },
     .Yellow = { 233, 233, 0, 255 },
     .Green = { 0, 210, 0, 255 },
+    .Purple = { 114, 0, 207, 255 },
 }
 
 block_color_textures := [Block_Color]string {
@@ -25,6 +36,7 @@ block_color_textures := [Block_Color]string {
     .Orange = "orange_block.png",
     .Yellow = "yellow_block.png",
     .Green = "green_block.png",
+    .Purple = "purple_block.png",
 }
 
 block_color_score := [Block_Color]int {
@@ -32,6 +44,7 @@ block_color_score := [Block_Color]int {
     .Green  = 4,
     .Orange = 6,
     .Red    = 8,
+    .Purple = 10,
 }
 
 Game_Resources :: struct {

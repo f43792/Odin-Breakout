@@ -45,6 +45,7 @@ init_game :: proc(gs: ^Game_State) {
     gs.resources.block_texture[.Orange] = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Orange]})))
     gs.resources.block_texture[.Yellow] = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Yellow]})))
     gs.resources.block_texture[.Green] = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Green]})))
+    gs.resources.block_texture[.Purple] = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Purple]})))
 
 }
 
@@ -55,8 +56,8 @@ loose :: proc (gs: ^Game_State) {
     TxtLine2 := fmt.ctprintf("Final Score: %v. PRESS [SPACE] to restart", gs.score)
     DynColorHUE := f32(rl.GetTime() * 200)
     T2Width := rl.MeasureText(TxtLine2, FontSIZE)
-    rl.DrawText(TxtLine1, SCREEN_SIZE/2 - T1Width/2, BALL_START_Y - 30, FontSIZE * 2, rl.ColorFromHSV(DynColorHUE, 1.0, 1.0))
-    rl.DrawText(TxtLine2, SCREEN_SIZE/2 - T2Width/2, BALL_START_Y, FontSIZE, rl.ColorFromHSV(DynColorHUE + 150, 1.0, 1.0))
+    rl.DrawText(TxtLine1, SCREEN_SIZE/2 - T1Width/2, BALL_START_Y, FontSIZE * 2, rl.ColorFromHSV(DynColorHUE, 1.0, 1.0))
+    rl.DrawText(TxtLine2, SCREEN_SIZE/2 - T2Width/2, BALL_START_Y + 30, FontSIZE, rl.ColorFromHSV(DynColorHUE + 150, 1.0, 1.0))
     if rl.IsKeyPressed( .SPACE ) {
         restart(gs)
     }
