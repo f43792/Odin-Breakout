@@ -21,7 +21,7 @@ main :: proc() {
 
         render(&game_state)
 
-        free_all(context.temp_allocator)
+        //free_all(context.temp_allocator)
     }
 
     rl.ShowCursor()

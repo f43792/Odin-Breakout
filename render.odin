@@ -88,6 +88,8 @@ render :: proc(gs: ^Game_State) {
 
     draw_score(gs)
 
+    free_all(context.temp_allocator)
+
     rl.EndMode2D()
     rl.EndDrawing()
 }
