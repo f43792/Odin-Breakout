@@ -35,7 +35,7 @@ init_game :: proc(gs: ^Game_State) {
     rl.HideCursor()
 
     gs.resources.ball_texture = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "ball.png"})))
-    gs.resources.paddle_texture = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "paddle.png"})))
+    gs.resources.paddle_texture = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "new_paddle.png"})))
     gs.resources.hit_block_sound = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "hit_block_2.wav"})))
     gs.resources.hit_paddle_sound = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "hit_paddle.wav"})))
     gs.resources.game_over_sound = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "game_over.wav"})))
