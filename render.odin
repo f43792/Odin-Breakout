@@ -10,7 +10,7 @@ render :: proc(gs: ^Game_State) {
     // rl.ClearBackground({0, 87, 165, 255})
     // rl.ClearBackground(rl.GetColor(0x9fb4c1ff))
     rl.ClearBackground(rl.RAYWHITE)
-    rl.DrawRectangleGradientV(0, 0, WIN_SIZE, WIN_SIZE, rl.GetColor(0x9fb4c1ff), rl.GetColor(0x9fb4c1aa))
+    rl.DrawRectangleGradientV(0, 0, WIN_SIZE, WIN_SIZE, rl.GetColor(0x8fc4d1ff), rl.GetColor(0x9fb4c133))
 
     camera := rl.Camera2D({
         zoom = f32(rl.GetScreenHeight()/SCREEN_SIZE)
@@ -34,7 +34,7 @@ render :: proc(gs: ^Game_State) {
     // rl.DrawCircleV(ball_pos, BALL_RADIUS, {200, 90, 20, 255})
     rl.DrawTextureV(gs.resources.ball_texture, gs.ball_render_pos - {BALL_RADIUS, BALL_RADIUS}, rl.WHITE)
     // draw_ball(ball)
-    PAD :: 10
+    PAD :: 1
 
     for x in 0..<NUM_BLOCKS_X {
         for y in 0..<NUM_BLOCKS_Y {
@@ -61,15 +61,25 @@ render :: proc(gs: ^Game_State) {
             }
 
             // rl.DrawRectangleRec(block_rect, {u8(45 + y * 3), 45, u8(45 + x * 3), 255})
-            rl.DrawRectangleRec(block_rect, block_color_values[row_colors[y]])
+            // rl.DrawRectangleRec(block_rect, block_color_values[row_colors[y]])
+            rl.DrawTextureV(gs.resources.block_texture[row_colors[y]], {block_rect.x, block_rect.y}, rl.WHITE)
+            // rl.DrawTexturePro(
+            //     gs.resources.block_texture[row_colors[y]], 
+            //     rl.Rectangle({0, 0, 28, 10}), 
+            //     {block_rect.x, block_rect.y, block_rect.width - (PAD * 2), block_rect.height - (PAD * 2)},
+            //     {0, 0}, 
+            //     f32(0), 
+            //     rl.WHITE
+            // )
+            // rl.DrawTextureRec(gs.resources.block_texture[row_colors[y]], )
             
-            lineThickness : f32 = 0.50
-            // borderColor : rl.Color = rl.ColorFromHSV(f32(rl.GetTime() * 50), 1.0, 1.0) //rl.GetColor(0x3d0090ff)
-            rl.DrawLineEx(top_left, top_right, lineThickness, rl.ColorAlpha(rl.WHITE, 1.0))
-            rl.DrawLineEx(top_left, bottom_left, lineThickness, rl.ColorAlpha(rl.WHITE, 1.0))
-            lineThickness = 0.9
-            rl.DrawLineEx(bottom_left, bottom_right, lineThickness, rl.ColorAlpha(rl.GRAY, 0.85))
-            rl.DrawLineEx(top_right, bottom_right, lineThickness, rl.ColorAlpha(rl.GRAY, 0.85))
+            // lineThickness : f32 = 0.50
+            // // borderColor : rl.Color = rl.ColorFromHSV(f32(rl.GetTime() * 50), 1.0, 1.0) //rl.GetColor(0x3d0090ff)
+            // rl.DrawLineEx(top_left, top_right, lineThickness, rl.ColorAlpha(rl.WHITE, 1.0))
+            // rl.DrawLineEx(top_left, bottom_left, lineThickness, rl.ColorAlpha(rl.WHITE, 1.0))
+            // lineThickness = 0.9
+            // rl.DrawLineEx(bottom_left, bottom_right, lineThickness, rl.ColorAlpha(rl.GRAY, 0.85))
+            // rl.DrawLineEx(top_right, bottom_right, lineThickness, rl.ColorAlpha(rl.GRAY, 0.85))
 
         }
     }

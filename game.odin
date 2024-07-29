@@ -20,6 +20,13 @@ block_color_values := [Block_Color]rl.Color {
     .Green = { 0, 210, 0, 255 },
 }
 
+block_color_textures := [Block_Color]string {
+    .Red = "red_block.png",
+    .Orange = "orange_block.png",
+    .Yellow = "yellow_block.png",
+    .Green = "green_block.png",
+}
+
 block_color_score := [Block_Color]int {
     .Yellow = 2,
     .Green  = 4,
@@ -34,6 +41,7 @@ Game_Resources :: struct {
     hit_paddle_sound            : rl.Sound,
     game_over_sound             : rl.Sound,
     game_win_sound              : rl.Sound,
+    block_texture               : [Block_Color]rl.Texture2D,
 }
 
 Game_State :: struct {

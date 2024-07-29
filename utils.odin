@@ -37,10 +37,11 @@ reflect :: proc(dir, normal: rl.Vector2) -> rl.Vector2 {
 }
 
 calc_block_rect :: proc(x, y : int) -> rl.Rectangle {
+    PAD :: 1
     return {
-        f32(20 + x * BLOCK_WIDTH),
-        f32(40 + y * BLOCK_HEIGHT),
-        BLOCK_WIDTH, // - 1,
-        BLOCK_HEIGHT, // - 1
+        f32(20 + x * (BLOCK_WIDTH + PAD)),
+        f32(40 + y * (BLOCK_HEIGHT + PAD)),
+        BLOCK_WIDTH - PAD, // - 1,
+        BLOCK_HEIGHT - PAD, // - 1
     }
 }
