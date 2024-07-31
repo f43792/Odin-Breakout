@@ -183,11 +183,14 @@ update :: proc(gs: ^Game_State) {
                     gs.score += block_color_score[row_color]
                     rl.SetSoundPitch(gs.resources.hit_block_sound, rand.float32_range(0.8, 1.35))
                     rl.PlaySound(gs.resources.hit_block_sound)
+                    add_emitter(gs, gs.ball_pos, gs.ball_dir)
                     break block_x_loop
                 }
 
             }
         }
+
+        update_particles(gs)
 
         gs.accumulated_time -= gs.DT
 

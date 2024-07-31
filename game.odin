@@ -75,6 +75,7 @@ Game_State :: struct {
     paddle_render_pos_x         : f32,
     DT                          : f32,
     resources                   : Game_Resources,
+    particles                   : Emitter_group,
 }
 
 make_game_state :: proc() -> Game_State {
@@ -83,6 +84,7 @@ make_game_state :: proc() -> Game_State {
     new_game_state.fallow_paddle = false
     new_game_state.game_win = false
     new_game_state.DT = 1.0 / 60.0 //16 ms or 0.016s
+    new_game_state.particles = make_emitter_group()
 
     return new_game_state
 }
