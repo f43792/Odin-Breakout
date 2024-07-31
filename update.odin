@@ -58,7 +58,7 @@ update :: proc(gs: ^Game_State) {
             restart(gs)
         } 
         
-        if rl.IsKeyPressed(.F1) {
+        if rl.IsKeyPressed(.F) {
             gs.fallow_paddle = !gs.fallow_paddle
         }
     
