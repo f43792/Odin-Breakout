@@ -33,19 +33,26 @@ make_emitter_group :: proc() -> Emitter_group {
 }
 
 add_emitter :: proc(gs: ^Game_State, position: rl.Vector2, direction: rl.Vector2, normal: rl.Vector2, hit_color: rl.Color) {
+    TOTAL_PARTICLES :: 128
+    HUE_RANGE :: f32(22.5)
     new_emiter := Emitter{
         still_live      = true
     }
-    for i in 0 ..< 256 {
+    for i in 0 ..< TOTAL_PARTICLES {
+        
+        HSV_color := rl.ColorToHSV(hit_color)
+        var_color := rl.ColorFromHSV(HSV_color.x + rand.float32_range(-HUE_RANGE, HUE_RANGE), HSV_color.y, HSV_color.z)
+        // var_color = rl.ColorAlpha(var_color, particle.opacity)
+
         new_particle := Particle {
             speed               = rand.float32_range(0.05, 1.5),
             position            = position,
             // direction           = linalg.normalize(reflect(direction, normal)), //  * rand.float32_range(-0.025, 0.025)),
             direction           = reflect(direction * rl.Vector2({rand.float32_range(0, 0.25), rand.float32_range(0, 0.25)}), normal, false), // * rand.float32_range(2.0, 145),
-            lifetime            = i32(rand.float32_range(200.0, 1500.0)),
+            lifetime            = i32(rand.float32_range(200.0, 2500.0)),
             opacity             = 1.0,
             still_live          = true,
-            color               = hit_color,
+            color               = var_color,
             size                = rand.float32_range(0.1, 4.5)
         }
         append(&new_emiter.particles, new_particle)
@@ -77,10 +84,12 @@ update_particles :: proc(gs: ^Game_State) {
                particle.position.x >= SCREEN_SIZE + 16 ||
                particle.position.y <= 0 - 16 || 
                particle.position.y >= SCREEN_SIZE + 16 || 
-               particle.opacity <= 0 {
+               particle.opacity <= 0 ||
+               particle.lifetime <= 0 {
                 particle.still_live = false
             }
-            particle.opacity -= 0.025
+            particle.opacity -= rand.float32_range(0.001, 0.075)
+            // particle.lifetime -= 1
             // particle.speed -= 0.0125
             particle.color = rl.ColorAlpha(particle.color, particle.opacity)
         }
