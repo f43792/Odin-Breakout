@@ -6,11 +6,13 @@ import rl "vendor:raylib"
 
 render :: proc(gs: ^Game_State) {
     /////////// Game draw functions
+    CBG1 :: 0x4284adff//0x8fc4d1ff
+    CBG2 :: 0x213b4cff//0x9fb4c133
     rl.BeginDrawing()
     // rl.ClearBackground({0, 87, 165, 255})
     // rl.ClearBackground(rl.GetColor(0x9fb4c1ff))
     rl.ClearBackground(rl.RAYWHITE)
-    rl.DrawRectangleGradientV(0, 0, WIN_SIZE, WIN_SIZE, rl.GetColor(0x8fc4d1ff), rl.GetColor(0x9fb4c133))
+    rl.DrawRectangleGradientV(0, 0, WIN_SIZE, WIN_SIZE, rl.GetColor(CBG1), rl.GetColor(CBG2))
 
     camera := rl.Camera2D({
         zoom = f32(rl.GetScreenHeight()/SCREEN_SIZE)
