@@ -13,7 +13,7 @@ BALL_START_Y            :: 160
 NUM_BLOCKS_X            :: 9
 NUM_BLOCKS_Y            :: 10
 BLOCK_WIDTH             :: 28
-BLOCK_HEIGHT            :: 10
+BLOCK_HEIGHT            :: 14
 RSC_FOLDER              :string: "rsc/"
 
 
