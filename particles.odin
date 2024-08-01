@@ -97,11 +97,51 @@ update_particles :: proc(gs: ^Game_State) {
                particle.lifetime <= 0 {
                 particle.still_live = false
             }
-            // fmt.println(rem_opacity)
+
+            block_x_loop: for x in 0..< NUM_BLOCKS_X {
+                for y in 0..< NUM_BLOCKS_Y {
+                    if gs.blocks[x][y] == false {
+                        continue
+                    }
+                block_rect := calc_block_rect(x, y)
+
+                if rl.CheckCollisionCircleRec(particle.position, BALL_RADIUS, block_rect) {
+                    collision_normal: rl.Vector2
+
+                    // Hit block from above
+                    if particle.position.y < block_rect.y {
+                        collision_normal += {0, -1}
+                    }
+
+                    // Hit block from under
+                    if particle.position.y > block_rect.y + block_rect.height {
+                        collision_normal += {0, 1}
+                    }
+
+                    // Hit block from left
+                    if particle.position.x < block_rect.x {
+                        collision_normal += {-1, 0}
+                    }
+
+                    //Hit block from right
+                    if particle.position.x > block_rect.x + block_rect.width {
+                        collision_normal += {1, 0}
+                    }
+
+                    //Check if there is a collision
+                    if collision_normal != 0 {
+                        particle.direction = reflect(particle.direction, collision_normal, false)
+                        particle.opacity -= particle.opacity_step * 2
+                    }   
+                    
+                    break block_x_loop
+
+                }
+            }
+        }
+
+
             particle.opacity -= particle.opacity_step
-            
-            // particle.lifetime -= 1
-            // particle.speed -= 0.0125
             particle.color = rl.ColorAlpha(particle.color, particle.opacity)
         }
         if !is_emitter_live(emitter) {
