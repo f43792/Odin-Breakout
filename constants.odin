@@ -9,7 +9,8 @@ PADDLE_SPEED            :: 200
 BALL_SPEED              :f32 = 200.0
 BALL_INCREMENT_SPEED    :f32 = 0.5
 BALL_RADIUS             :: 4
-BALL_START_Y            :: 160
+BALL_START_Y            :: 200
+Y_BLOCK_START           :: 30
 NUM_BLOCKS_X            :: 9
 NUM_BLOCKS_Y            :: 10
 BLOCK_WIDTH             :: 28

@@ -41,7 +41,7 @@ calc_block_rect :: proc(x, y : int) -> rl.Rectangle {
     X := (SCREEN_SIZE / 2) - ((NUM_BLOCKS_X * (BLOCK_WIDTH + PAD)) / 2)
     return {
         f32(X + x * (BLOCK_WIDTH + PAD)),
-        f32(35 + y * (BLOCK_HEIGHT + PAD)),
+        f32(Y_BLOCK_START + y * (BLOCK_HEIGHT + PAD)),
         BLOCK_WIDTH - PAD, // - 1,
         BLOCK_HEIGHT - PAD, // - 1
     }
