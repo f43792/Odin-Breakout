@@ -48,6 +48,10 @@ init_game :: proc(gs: ^Game_State) {
     gs.resources.block_texture[.Green] = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Green]})))
     gs.resources.block_texture[.Purple] = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Purple]})))
 
+
+    icon_bitmap := rl.LoadImage(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "app-icon.png"})))
+    rl.SetWindowIcon(icon_bitmap)
+
 }
 
 loose :: proc (gs: ^Game_State) {
