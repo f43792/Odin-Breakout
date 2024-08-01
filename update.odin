@@ -181,9 +181,10 @@ update :: proc(gs: ^Game_State) {
                     gs.blocks[x][y] = false
                     row_color := row_colors[y]
                     gs.score += block_color_score[row_color]
+                    hit_block_color := block_color_values[row_color]
                     rl.SetSoundPitch(gs.resources.hit_block_sound, rand.float32_range(0.8, 1.35))
                     rl.PlaySound(gs.resources.hit_block_sound)
-                    add_emitter(gs, gs.ball_pos, gs.ball_dir)
+                    add_emitter(gs, gs.previous_ball_position, gs.ball_dir, collision_normal, hit_block_color)
                     break block_x_loop
                 }
 
