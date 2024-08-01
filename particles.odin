@@ -2,6 +2,7 @@ package breakout
 
 import "core:math/rand"
 import "core:math/linalg"
+import "core:fmt"
 import rl "vendor:raylib"
 
 Particle :: struct {
@@ -13,6 +14,7 @@ Particle :: struct {
     opacity             : f32,
     still_live          : bool,
     size                : f32,
+    opacity_step        : f32,
 }
 
 Emitter :: struct {
@@ -53,7 +55,8 @@ add_emitter :: proc(gs: ^Game_State, position: rl.Vector2, direction: rl.Vector2
             opacity             = 1.0,
             still_live          = true,
             color               = var_color,
-            size                = rand.float32_range(0.1, 4.5)
+            size                = rand.float32_range(0.1, 4.5),
+            opacity_step        = rand.float32_range(0.005, 0.085),
         }
         append(&new_emiter.particles, new_particle)
     }
@@ -94,7 +97,9 @@ update_particles :: proc(gs: ^Game_State) {
                particle.lifetime <= 0 {
                 particle.still_live = false
             }
-            particle.opacity -= rand.float32_range(0.001, 0.075)
+            // fmt.println(rem_opacity)
+            particle.opacity -= particle.opacity_step
+            
             // particle.lifetime -= 1
             // particle.speed -= 0.0125
             particle.color = rl.ColorAlpha(particle.color, particle.opacity)
