@@ -68,13 +68,19 @@ is_emitter_live :: proc(emitter: Emitter) -> bool {
     return res
 }
 
-destroy_emitter :: proc(gs: ^Game_State, emitter: Emitter) {
+destroy_emitter :: proc(gs: ^Game_State, emitter: ^Emitter) {
     // i := len(emitter.particles)
     // shrink(&emitter.particles)
+    part := emitter.particles
+    clear(&part)
+    // free(emitter)
+    // for emi in gs.particles.emitters {
+
+    // }
 }
 
 update_particles :: proc(gs: ^Game_State) {
-    for emitter in gs.particles.emitters {
+    for &emitter in gs.particles.emitters {
         for &particle in emitter.particles {
 
             // particle.position += particle.position * particle.direction * particle.speed * gs.DT
@@ -94,7 +100,8 @@ update_particles :: proc(gs: ^Game_State) {
             particle.color = rl.ColorAlpha(particle.color, particle.opacity)
         }
         if !is_emitter_live(emitter) {
-            destroy_emitter(gs, emitter)
+            emitter.still_live = false
+            destroy_emitter(gs, &emitter)
         }
     }
 }
