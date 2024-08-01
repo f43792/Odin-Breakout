@@ -33,8 +33,8 @@ make_emitter_group :: proc() -> Emitter_group {
 }
 
 add_emitter :: proc(gs: ^Game_State, position: rl.Vector2, direction: rl.Vector2, normal: rl.Vector2, hit_color: rl.Color) {
-    TOTAL_PARTICLES :: 32
-    HUE_RANGE :: f32(22.5)
+    TOTAL_PARTICLES :: 25
+    HUE_RANGE :: f32(11.25)
     new_emiter := Emitter{
         still_live      = true
     }
