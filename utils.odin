@@ -30,9 +30,11 @@ block_exists :: proc(gs: ^Game_State, x, y: int) -> bool {
     return gs.blocks[x][y]
 }
 
-reflect :: proc(dir, normal: rl.Vector2) -> rl.Vector2 {
+reflect :: proc(dir, normal: rl.Vector2, inc_ball_speed: bool = true) -> rl.Vector2 {
     new_dir := linalg.reflect(dir, linalg.normalize(normal))
-    BALL_SPEED += BALL_INCREMENT_SPEED
+    if inc_ball_speed {
+        BALL_SPEED += BALL_INCREMENT_SPEED
+    }
     return linalg.normalize(new_dir)
 }
 
