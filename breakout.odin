@@ -1,6 +1,6 @@
 package breakout
 
-// https://youtu.be/vfgZOEvO0kM?t=5864
+// From https://youtu.be/vfgZOEvO0kM
 
 // About better timestamps:"https://gafferongames.com/post/fix_your_timestep/"
 
