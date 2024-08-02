@@ -182,6 +182,26 @@ update :: proc(gs: ^Game_State) {
                     hit_block_color := block_color_values[row_color]
                     rl.SetSoundPitch(gs.resources.hit_block_sound, rand.float32_range(0.95, 1.05) * block_sound_pitch[row_color])
                     rl.PlaySound(gs.resources.hit_block_sound)
+
+                    
+                    glass_sound := rand.int_max(2) + 1
+                    rl.SetSoundPitch(gs.resources.hit_block_sound, rand.float32_range(0.95, 1.05) * block_sound_pitch[row_color])
+
+                    switch glass_sound {
+                        case 0: {
+                                    rl.SetSoundPitch(gs.resources.glass_break_1, rand.float32_range(1.0, 1.15) * block_sound_pitch[row_color])
+                                    rl.PlaySound(gs.resources.glass_break_1)
+                                }
+                                case 1: {
+                                    rl.SetSoundPitch(gs.resources.glass_break_2, rand.float32_range(1.0, 1.15) * block_sound_pitch[row_color])
+                                    rl.PlaySound(gs.resources.glass_break_2)
+                                }
+                                case 2: {
+                                    rl.SetSoundPitch(gs.resources.glass_break_3, rand.float32_range(1.0, 1.15) * block_sound_pitch[row_color])
+                                    rl.PlaySound(gs.resources.glass_break_3)
+                                }
+                    }
+
                     add_emitter(gs, gs.ball_pos, gs.ball_dir, collision_normal, hit_block_color)
                     break block_x_loop
                 }
