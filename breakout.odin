@@ -12,8 +12,6 @@ main :: proc() {
 
     init_game(&game_state)
     restart(&game_state)
-
-    // ball = make_ball(BALL_RADIUS, {56,56,89, 255})
     
     for !rl.WindowShouldClose() {
 
@@ -21,7 +19,6 @@ main :: proc() {
 
         render(&game_state)
 
-        //free_all(context.temp_allocator)
     }
 
     rl.ShowCursor()

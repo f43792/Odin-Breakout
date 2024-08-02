@@ -84,12 +84,7 @@ update :: proc(gs: ^Game_State) {
 
 
 
-        gs.paddle_pos_x += paddle_move_velocity * gs.DT
-        
-        // if use_mouse_x {
-        //     paddle_pos_x = f32(rl.GetMouseX()) - PADDLE_WIDTH / 2
-        //     // fmt.print(paddle_pos_x)
-        // }
+        gs.paddle_pos_x += paddle_move_velocity * gs.DT 
         
         gs.paddle_pos_x = clamp(gs.paddle_pos_x, 0, SCREEN_SIZE - PADDLE_WIDTH)
 
@@ -106,7 +101,6 @@ update :: proc(gs: ^Game_State) {
             collision_normal: rl.Vector2
 
             if gs.previous_ball_position.y < paddle_rect.y + paddle_rect.height {
-                // response := (ball_pos.x * (paddle_rect.x + (paddle_rect.width / 2))) * -0.05
                 collision_normal += {0, -1}
                 gs.ball_pos.y = paddle_rect.y - BALL_RADIUS
             }

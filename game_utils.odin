@@ -28,9 +28,7 @@ check_game_status :: proc(gs: ^Game_State) {
 
 init_game :: proc(gs: ^Game_State) {
     rl.SetConfigFlags({ .VSYNC_HINT }) 
-    // rl.SetTraceLogLevel( .ERROR )
     rl.InitWindow(WIN_SIZE, WIN_SIZE, "ODIN Breakout!")
-    // rl.SetWindowPosition(0, 35)
     rl.InitAudioDevice()
     rl.SetTargetFPS(500)
     rl.HideCursor()

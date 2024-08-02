@@ -44,12 +44,10 @@ add_emitter :: proc(gs: ^Game_State, position: rl.Vector2, direction: rl.Vector2
         
         HSV_color := rl.ColorToHSV(hit_color)
         var_color := rl.ColorFromHSV(HSV_color.r + rand.float32_range(-HUE_RANGE, HUE_RANGE), HSV_color.g, HSV_color.b)
-        // var_color = rl.ColorAlpha(var_color, particle.opacity)
 
         new_particle := Particle {
             speed               = rand.float32_range(0.05, 1.5),
             position            = position,
-            // direction           = linalg.normalize(reflect(direction, normal)), //  * rand.float32_range(-0.025, 0.025)),
             direction           = reflect(direction * rl.Vector2({rand.float32_range(0, 0.25), rand.float32_range(0, 0.25)}), normal, false), // * rand.float32_range(2.0, 145),
             lifetime            = i32(rand.float32_range(200.0, 2500.0)),
             opacity             = 1.0,
@@ -72,14 +70,8 @@ is_emitter_live :: proc(emitter: Emitter) -> bool {
 }
 
 destroy_emitter :: proc(gs: ^Game_State, emitter: ^Emitter) {
-    // i := len(emitter.particles)
-    // shrink(&emitter.particles)
     part := emitter.particles
     clear(&part)
-    // free(emitter)
-    // for emi in gs.particles.emitters {
-
-    // }
 }
 
 update_particles :: proc(gs: ^Game_State) {
