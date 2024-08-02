@@ -27,31 +27,32 @@ check_game_status :: proc(gs: ^Game_State) {
 }
 
 init_game :: proc(gs: ^Game_State) {
+    context.allocator = context.temp_allocator
     rl.SetConfigFlags({ .VSYNC_HINT }) 
     rl.InitWindow(WIN_SIZE, WIN_SIZE, "ODIN Breakout!")
     rl.InitAudioDevice()
     rl.SetTargetFPS(500)
-    rl.HideCursor()
+    rl.HideCursor() 
 
-    gs.resources.ball_texture       = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "ball.png"})))
-    gs.resources.paddle_texture     = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "new_paddle.png"})))
-    gs.resources.hit_block_sound    = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "hit_block_2.wav"})))
-    gs.resources.hit_paddle_sound   = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "hit_paddle_2.wav"})))
-    gs.resources.game_over_sound    = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "game_over.wav"})))
-    gs.resources.game_win_sound     = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "game_win.wav"})))
-    gs.resources.glass_break_1      = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "glass_1.wav"})))
-    gs.resources.glass_break_2      = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "glass_2.wav"})))
-    gs.resources.glass_break_3      = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "glass_3.wav"})))
-   
-    gs.resources.block_texture[.Red] = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Red]})))
+    gs.resources.hit_block_sound        = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "hit_block_2.wav"})))
+    gs.resources.hit_paddle_sound       = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "hit_paddle_2.wav"})))
+    gs.resources.game_over_sound        = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "game_over.wav"})))
+    gs.resources.game_win_sound         = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "game_win.wav"})))
+    gs.resources.glass_break_1          = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "glass_1.wav"})))
+    gs.resources.glass_break_2          = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "glass_2.wav"})))
+    gs.resources.glass_break_3          = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "glass_3.wav"})))
+    
+    gs.resources.ball_texture           = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "ball.png"})))
+    gs.resources.paddle_texture         = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "new_paddle.png"})))
+    gs.resources.block_texture[.Red]    = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Red]})))
     gs.resources.block_texture[.Orange] = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Orange]})))
     gs.resources.block_texture[.Yellow] = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Yellow]})))
-    gs.resources.block_texture[.Green] = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Green]})))
+    gs.resources.block_texture[.Green]  = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Green]})))
     gs.resources.block_texture[.Purple] = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Purple]})))
 
 
-    icon_bitmap := rl.LoadImage(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "app-icon.png"})))
-    rl.SetWindowIcon(icon_bitmap)
+    gs.resources.window_icon            = rl.LoadImage(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "app-icon.png"})))
+    rl.SetWindowIcon(gs.resources.window_icon)
 
 }
 
@@ -103,5 +104,26 @@ restart :: proc(gs: ^Game_State) {
             gs.blocks[x][y] = true
         }
     }
+
+}
+
+unload_resources :: proc(gs: ^Game_State) {
+    rl.UnloadSound(gs.resources.hit_block_sound)
+    rl.UnloadSound(gs.resources.hit_paddle_sound)
+    rl.UnloadSound(gs.resources.game_over_sound)
+    rl.UnloadSound(gs.resources.game_win_sound)
+    rl.UnloadSound(gs.resources.glass_break_1)
+    rl.UnloadSound(gs.resources.glass_break_2)
+    rl.UnloadSound(gs.resources.glass_break_3)
+
+    rl.UnloadTexture(gs.resources.ball_texture)
+    rl.UnloadTexture(gs.resources.paddle_texture)
+    rl.UnloadTexture(gs.resources.block_texture[.Red])
+    rl.UnloadTexture(gs.resources.block_texture[.Orange])
+    rl.UnloadTexture(gs.resources.block_texture[.Yellow])
+    rl.UnloadTexture(gs.resources.block_texture[.Green])
+    rl.UnloadTexture(gs.resources.block_texture[.Purple])
+    
+    rl.UnloadImage(gs.resources.window_icon)
 
 }
