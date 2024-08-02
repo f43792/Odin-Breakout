@@ -76,6 +76,7 @@ Game_State :: struct {
     DT                          : f32,
     resources                   : Game_Resources,
     particles                   : Emitter_group,
+    last_block_score            : int,
 }
 
 make_game_state :: proc() -> Game_State {

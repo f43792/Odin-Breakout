@@ -130,6 +130,9 @@ update :: proc(gs: ^Game_State) {
                 gs.ball_dir = reflect(gs.ball_dir, linalg.normalize(collision_normal))
             }
             if !gs.game_win { rl.PlaySound(gs.resources.hit_paddle_sound) }
+
+            //if touch paddle...
+            gs.last_block_score = 1
         }
 
         block_x_loop: for x in 0..< NUM_BLOCKS_X {
@@ -180,7 +183,8 @@ update :: proc(gs: ^Game_State) {
 
                     gs.blocks[x][y] = false
                     row_color := row_colors[y]
-                    gs.score += block_color_score[row_color]
+                    gs.score += block_color_score[row_color] + gs.last_block_score
+                    gs.last_block_score = block_color_score[row_color]
                     hit_block_color := block_color_values[row_color]
                     rl.SetSoundPitch(gs.resources.hit_block_sound, rand.float32_range(0.8, 1.35))
                     rl.PlaySound(gs.resources.hit_block_sound)

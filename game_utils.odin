@@ -95,6 +95,7 @@ restart :: proc(gs: ^Game_State) {
     BALL_INCREMENT_SPEED = f32(0.5)
     gs.fallow_paddle = false
     gs.game_win = false
+    gs.last_block_score = 1
 
     for x in 0..<NUM_BLOCKS_X {
         for y in 0..<NUM_BLOCKS_Y {
