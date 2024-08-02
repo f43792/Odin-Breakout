@@ -35,15 +35,15 @@ make_emitter_group :: proc() -> Emitter_group {
 }
 
 add_emitter :: proc(gs: ^Game_State, position: rl.Vector2, direction: rl.Vector2, normal: rl.Vector2, hit_color: rl.Color) {
-    TOTAL_PARTICLES :: 25
-    HUE_RANGE :: f32(11.25)
+    TOTAL_PARTICLES :: 32
+    HUE_RANGE :: f32(6.35)
     new_emiter := Emitter{
         still_live      = true
     }
     for i in 0 ..< TOTAL_PARTICLES {
         
         HSV_color := rl.ColorToHSV(hit_color)
-        var_color := rl.ColorFromHSV(HSV_color.x + rand.float32_range(-HUE_RANGE, HUE_RANGE), HSV_color.y, HSV_color.z)
+        var_color := rl.ColorFromHSV(HSV_color.r + rand.float32_range(-HUE_RANGE, HUE_RANGE), HSV_color.g, HSV_color.b)
         // var_color = rl.ColorAlpha(var_color, particle.opacity)
 
         new_particle := Particle {
