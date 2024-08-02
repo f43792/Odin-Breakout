@@ -66,6 +66,7 @@ Game_Resources :: struct {
     glass_break_1               : rl.Sound,
     glass_break_2               : rl.Sound,
     glass_break_3               : rl.Sound,
+    window_icon                 : rl.Image
 }
 
 Game_State :: struct {
