@@ -39,6 +39,14 @@ block_color_textures := [Block_Color]string {
     .Purple = "purple_block.png",
 }
 
+block_sound_pitch := [Block_Color]f32 {
+    .Red        = 1.0,
+    .Orange     = 1.1,
+    .Yellow     = 1.3,
+    .Green      = 1.2,
+    .Purple     = 0.75,
+}
+
 block_color_score := [Block_Color]int {
     .Yellow = 2,
     .Green  = 4,
