@@ -1,0 +1,1 @@
+odin build . -o:speed --out:./bin/breakout.exe
