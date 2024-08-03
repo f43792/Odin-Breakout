@@ -66,7 +66,9 @@ Game_Resources :: struct {
     glass_break_1               : rl.Sound,
     glass_break_2               : rl.Sound,
     glass_break_3               : rl.Sound,
-    window_icon                 : rl.Image
+    window_icon                 : rl.Image,
+    music_1                     : rl.Music,
+    music_volume                : f32,
 }
 
 Game_State :: struct {
@@ -89,6 +91,7 @@ Game_State :: struct {
     resources                   : Game_Resources,
     emitters_group              : Emitter_group,
     last_block_score            : int,
+    can_play_music              : bool,
 }
 
 make_game_state :: proc() -> Game_State {

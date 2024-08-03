@@ -10,6 +10,7 @@ check_game_status :: proc(gs: ^Game_State) {
     if gs.ball_pos.y - BALL_RADIUS > SCREEN_SIZE + BALL_RADIUS * 2 {
         if !gs.game_over {
             gs.game_over = true
+            gs.can_play_music = false
             rl.PlaySound(gs.resources.game_over_sound)
         }
         loose(gs)
@@ -27,16 +28,18 @@ check_game_status :: proc(gs: ^Game_State) {
 }
 
 init_game :: proc(gs: ^Game_State) {
+    
     context.allocator = context.temp_allocator
+
     when ODIN_DEBUG {
         rl.SetTraceLogLevel( .ALL )
     } else {
-        rl.SetTraceLogLevel( .ERROR )
+        rl.SetTraceLogLevel( .WARNING )
     }
     rl.SetConfigFlags({ .VSYNC_HINT }) 
     rl.InitWindow(WIN_SIZE, WIN_SIZE, "ODIN Breakout!")
     rl.InitAudioDevice()
-    rl.SetTargetFPS(500)
+    rl.SetTargetFPS(60)
     rl.HideCursor() 
 
     gs.resources.hit_block_sound        = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "hit_block_2.wav"})))
@@ -46,6 +49,8 @@ init_game :: proc(gs: ^Game_State) {
     gs.resources.glass_break_1          = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "glass_1.wav"})))
     gs.resources.glass_break_2          = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "glass_2.wav"})))
     gs.resources.glass_break_3          = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "glass_3.wav"})))
+
+    gs.resources.music_1                = rl.LoadMusicStream(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "music_1.wav"})))
     
     gs.resources.ball_texture           = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "ball.png"})))
     gs.resources.paddle_texture         = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "new_paddle.png"})))
@@ -73,6 +78,16 @@ loose :: proc (gs: ^Game_State) {
     if rl.IsKeyPressed( .SPACE ) {
         restart(gs)
     }
+
+    gs.resources.music_volume -= 0.0025
+    if gs.resources.music_volume <= 0.0 {
+        gs.resources.music_volume = 0
+        rl.StopMusicStream(gs.resources.music_1)
+        gs.can_play_music = false
+    } else {
+        rl.SetMusicVolume(gs.resources.music_1, gs.resources.music_volume)
+    }
+
 }
 
 win :: proc (gs: ^Game_State) {
@@ -102,13 +117,15 @@ restart :: proc(gs: ^Game_State) {
     BALL_INCREMENT_SPEED = f32(0.5)
     gs.fallow_paddle = false
     gs.game_win = false
-    gs.last_block_score = 1
+    gs.last_block_score = 0
+    gs.resources.music_volume = MUSIC_VOLUME_INIT
 
     for x in 0..<NUM_BLOCKS_X {
         for y in 0..<NUM_BLOCKS_Y {
             gs.blocks[x][y] = true
         }
     }
+
 
 }
 
@@ -128,7 +145,11 @@ unload_resources :: proc(gs: ^Game_State) {
     rl.UnloadTexture(gs.resources.block_texture[.Yellow])
     rl.UnloadTexture(gs.resources.block_texture[.Green])
     rl.UnloadTexture(gs.resources.block_texture[.Purple])
+
+    rl.StopMusicStream(gs.resources.music_1)
+    rl.UnloadMusicStream(gs.resources.music_1)
     
     rl.UnloadImage(gs.resources.window_icon)
+
 
 }

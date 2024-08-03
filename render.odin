@@ -72,4 +72,7 @@ render :: proc(gs: ^Game_State) {
 
     rl.EndMode2D()
     rl.EndDrawing()
+
+    rl.UpdateMusicStream(gs.resources.music_1)
+
 }

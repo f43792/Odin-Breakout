@@ -3,6 +3,7 @@ package breakout
 import "core:math"
 import "core:math/linalg"
 import "core:math/rand"
+import "core:fmt"
 import rl "vendor:raylib"
 
 update :: proc(gs: ^Game_State) {
@@ -22,9 +23,20 @@ update :: proc(gs: ^Game_State) {
             
             gs.ball_dir = linalg.normalize0(ball_to_paddle) //{0, 1}
             gs.started = true
+            gs.can_play_music = true
         }
     } else {
         gs.accumulated_time += rl.GetFrameTime()
+
+        // Start play music
+        if gs.can_play_music {
+            if rl.IsMusicReady(gs.resources.music_1) {
+                rl.SetMusicVolume(gs.resources.music_1, gs.resources.music_volume)
+                rl.PlayMusicStream(gs.resources.music_1)
+            } else {
+                fmt.println("Music not ready...")
+            }
+        }
     }
 
     
