@@ -28,6 +28,7 @@ check_game_status :: proc(gs: ^Game_State) {
 
 init_game :: proc(gs: ^Game_State) {
     context.allocator = context.temp_allocator
+    rl.SetTraceLogLevel( .ALL )
     rl.SetConfigFlags({ .VSYNC_HINT }) 
     rl.InitWindow(WIN_SIZE, WIN_SIZE, "ODIN Breakout!")
     rl.InitAudioDevice()
