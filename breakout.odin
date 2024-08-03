@@ -32,19 +32,32 @@ _main :: proc() {
 
 main :: proc() {
 
-    track: mem.Tracking_Allocator
-    mem.tracking_allocator_init(&track, context.allocator)
-    defer mem.tracking_allocator_destroy(&track)
-    context.allocator = mem.tracking_allocator(&track)
+    when ODIN_DEBUG {
+        fmt.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DEBUG MODE")
 
+        track: mem.Tracking_Allocator
+        mem.tracking_allocator_init(&track, context.allocator)
+        defer mem.tracking_allocator_destroy(&track)
+        context.allocator = mem.tracking_allocator(&track)
+
+        _main()
+
+        fmt.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MEMORY LEAK REPORT")
+
+        for _, leak in track.allocation_map {
+            fmt.printf("%v leaked %m\n", leak.location, leak.size)
+        }
+
+        for bad_free in track.bad_free_array {
+            fmt.printf("%v allocation %p was freed badly\n", bad_free.location, bad_free.memory)
+        }
+
+        fmt.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END MEMORY LEAK REPORT")
+
+        fmt.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END DEBUG MODE")
+
+} else {
     _main()
-
-    for _, leak in track.allocation_map {
-        fmt.printf("%v leaked %m\n", leak.location, leak.size)
-    }
-
-    for bad_free in track.bad_free_array {
-        fmt.printf("%v allocation %p was freed badly\n", bad_free.location, bad_free.memory)
-    }
+}
 
 }
