@@ -126,7 +126,7 @@ update :: proc(gs: ^Game_State) {
             if !gs.game_win { rl.PlaySound(gs.resources.hit_paddle_sound) }
 
             //if touch paddle...
-            gs.last_block_score = 1
+            gs.last_block_score = 0
         }
 
         block_x_loop: for x in 0..< NUM_BLOCKS_X {
@@ -177,16 +177,16 @@ update :: proc(gs: ^Game_State) {
 
                     gs.blocks[x][y] = false
                     row_color := row_colors[y]
-                    gs.score += block_color_score[row_color] + gs.last_block_score
-                    gs.last_block_score = block_color_score[row_color]
+
+                    new_score := block_color_score[row_color] + gs.last_block_score
+                    gs.score += new_score
+                    gs.last_block_score = new_score //block_color_score[row_color]
                     hit_block_color := block_color_values[row_color]
+
                     rl.SetSoundPitch(gs.resources.hit_block_sound, rand.float32_range(0.95, 1.05) * block_sound_pitch[row_color])
                     rl.PlaySound(gs.resources.hit_block_sound)
-
                     
                     glass_sound := rand.int_max(2) + 1
-                    rl.SetSoundPitch(gs.resources.hit_block_sound, rand.float32_range(0.95, 1.05) * block_sound_pitch[row_color])
-
                     switch glass_sound {
                         case 0: {
                                     rl.SetSoundPitch(gs.resources.glass_break_1, rand.float32_range(1.0, 1.15) * block_sound_pitch[row_color])

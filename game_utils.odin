@@ -98,7 +98,7 @@ restart :: proc(gs: ^Game_State) {
     gs.started = false
     gs.score = 0
     gs.game_over = false
-    BALL_SPEED = f32(200.0)
+    BALL_SPEED = f32(BALL_SPEED_INIT)
     BALL_INCREMENT_SPEED = f32(0.5)
     gs.fallow_paddle = false
     gs.game_win = false

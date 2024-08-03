@@ -6,8 +6,9 @@ PADDLE_WIDTH            :: 50
 PADDLE_HEIGHT           :: 8
 PADDLE_POS_Y            :: 300
 PADDLE_SPEED            :: 200
-BALL_SPEED              :f32 = 200.0
-BALL_INCREMENT_SPEED    :f32 = 0.5
+BALL_SPEED_INIT         :: 150.0
+BALL_SPEED              : f32 = BALL_SPEED_INIT
+BALL_INCREMENT_SPEED    : f32 = 0.5
 BALL_RADIUS             :: 4
 BALL_START_Y            :: 200
 Y_BLOCK_START           :: 30
