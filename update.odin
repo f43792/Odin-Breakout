@@ -60,41 +60,40 @@ update :: proc(gs: ^Game_State) {
             gs.ball_pos.y = BALL_RADIUS
             gs.ball_dir = reflect(gs.ball_dir, rl.Vector2({0, 1}))
         }
-        
 
-        if rl.IsKeyPressed( .F7 ) {
-            gs.show_info = !gs.show_info
-        }
-    
-        if rl.IsKeyPressed( .F5 ) {
-            restart(gs)
-        } 
-        
-        if rl.IsKeyPressed(.F) {
-            gs.fallow_paddle = !gs.fallow_paddle
-        }
-    
         if rl.IsKeyDown(.LEFT) {
             paddle_move_velocity -= PADDLE_SPEED
         }
     
         if rl.IsKeyDown(.RIGHT) {
             paddle_move_velocity += PADDLE_SPEED
+        }        
+        
+        if ODIN_DEBUG {
+            if rl.IsKeyPressed( .F7 ) {
+                gs.show_info = !gs.show_info
+            }
+        
+            if rl.IsKeyPressed( .F5 ) {
+                restart(gs)
+            } 
+            
+            if rl.IsKeyPressed(.F) {
+                gs.fallow_paddle = !gs.fallow_paddle
+            }
+            if rl.IsKeyPressed( .KP_ADD ) {
+                BALL_SPEED += 25.0
+            }
+    
+            if rl.IsKeyPressed( .KP_SUBTRACT ) {
+                BALL_SPEED -= 25.0
+            }
+    
+            if rl.IsKeyPressed( .KP_0 ) {
+                BALL_SPEED = 200.0
+            }            
         }
-
-        if rl.IsKeyPressed( .KP_ADD ) {
-            BALL_SPEED += 25.0
-        }
-
-        if rl.IsKeyPressed( .KP_SUBTRACT ) {
-            BALL_SPEED -= 25.0
-        }
-
-        if rl.IsKeyPressed( .KP_0 ) {
-            BALL_SPEED = 200.0
-        }
-
-
+    
 
         gs.paddle_pos_x += paddle_move_velocity * gs.DT 
         
