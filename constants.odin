@@ -16,7 +16,8 @@ NUM_BLOCKS_X            :: 9
 NUM_BLOCKS_Y            :: 10
 BLOCK_WIDTH             :: 28
 BLOCK_HEIGHT            :: 14
-BLOCK_VARIATIONS        :: 5
+BLOCK_VARIATIONS        :: 5 // in X
+BLOCK_PAD               :: 1
 RSC_FOLDER              :string: "rsc/"
 MUSIC_VOLUME_INIT       :: 0.50
 START_TEXT              :: "PRESS [SPACE] TO START"

@@ -45,7 +45,7 @@ render :: proc(gs: ^Game_State) {
                 continue
             }
 
-            block_rect := calc_block_rect(x, y)
+            block_rect := calc_dest_block_rect(x, y)
 
             top_left := rl.Vector2 {
                 block_rect.x, block_rect.y
@@ -63,7 +63,17 @@ render :: proc(gs: ^Game_State) {
                 block_rect.x + block_rect.width, block_rect.y + block_rect.height
             }
 
-            rl.DrawTextureV(gs.resources.block_texture[row_colors[y]], {block_rect.x, block_rect.y}, rl.WHITE)
+            block_src_rect := calc_source_block_rect(row_colors[y], gs.blocks[x][y].variation)
+
+            //rl.DrawTextureV(gs.resources.block_textures[row_colors[y]][0], {block_rect.x, block_rect.y}, rl.WHITE)
+            rl.DrawTexturePro(
+                gs.resources.blocks_atlas_texture,
+                block_src_rect,
+                block_rect,
+                {0, 0},
+                0.0,
+                rl.WHITE
+            )
 
         }
     }

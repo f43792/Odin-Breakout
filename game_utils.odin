@@ -4,6 +4,7 @@ import "core:fmt"
 import "core:strings"
 import "core:math"
 import "core:math/linalg"
+import "core:math/rand"
 import rl "vendor:raylib"
 
 check_game_status :: proc(gs: ^Game_State) {
@@ -34,6 +35,8 @@ init_game :: proc(gs: ^Game_State) {
     
     context.allocator = context.temp_allocator
 
+    // rand.create(u64(rl.GetTime())
+
     when ODIN_DEBUG {
         rl.SetTraceLogLevel( .ALL )
     } else {
@@ -58,12 +61,16 @@ init_game :: proc(gs: ^Game_State) {
     gs.resources.ball_texture           = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "ball.png"})))
     gs.resources.paddle_texture         = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "new_paddle.png"})))
     gs.resources.blocks_atlas_texture   = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "Blocks_atlas.png"})))
+
+    /*
     gs.resources.block_texture[.Red]    = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Red]})))
     gs.resources.block_texture[.Orange] = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Orange]})))
     gs.resources.block_texture[.Yellow] = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Yellow]})))
     gs.resources.block_texture[.Green]  = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Green]})))
     gs.resources.block_texture[.Purple] = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Purple]})))
+    */
 
+    // load_block_textures(gs)
 
     gs.resources.window_icon            = rl.LoadImage(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "app-icon.png"})))
     rl.SetWindowIcon(gs.resources.window_icon)
@@ -110,6 +117,7 @@ win :: proc (gs: ^Game_State) {
 }
 
 restart :: proc(gs: ^Game_State) {
+    rand.create(1234)
     gs.paddle_pos_x = SCREEN_SIZE / 2 - PADDLE_WIDTH / 2
     gs.previous_paddle_position_x = gs.paddle_pos_x
     gs.ball_pos = { SCREEN_SIZE/2, BALL_START_Y }
@@ -127,6 +135,7 @@ restart :: proc(gs: ^Game_State) {
     for x in 0..<NUM_BLOCKS_X {
         for y in 0..<NUM_BLOCKS_Y {
             gs.blocks[x][y].active = true
+            gs.blocks[x][y].variation = choose_variations()
         }
     }
 
@@ -144,11 +153,11 @@ unload_resources :: proc(gs: ^Game_State) {
 
     rl.UnloadTexture(gs.resources.ball_texture)
     rl.UnloadTexture(gs.resources.paddle_texture)
-    rl.UnloadTexture(gs.resources.block_texture[.Red])
-    rl.UnloadTexture(gs.resources.block_texture[.Orange])
-    rl.UnloadTexture(gs.resources.block_texture[.Yellow])
-    rl.UnloadTexture(gs.resources.block_texture[.Green])
-    rl.UnloadTexture(gs.resources.block_texture[.Purple])
+    rl.UnloadTexture(gs.resources.block_textures[.Red][0])
+    rl.UnloadTexture(gs.resources.block_textures[.Orange][0])
+    rl.UnloadTexture(gs.resources.block_textures[.Yellow][0])
+    rl.UnloadTexture(gs.resources.block_textures[.Green][0])
+    rl.UnloadTexture(gs.resources.block_textures[.Purple][0])
 
     rl.StopMusicStream(gs.resources.music_1)
     rl.UnloadMusicStream(gs.resources.music_1)

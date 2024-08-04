@@ -146,7 +146,7 @@ update :: proc(gs: ^Game_State) {
                     continue
                 }
 
-                block_rect := calc_block_rect(x, y)
+                block_rect := calc_dest_block_rect(x, y)
 
                 if rl.CheckCollisionCircleRec(gs.ball_pos, BALL_RADIUS, block_rect) {
                     collision_normal: rl.Vector2

@@ -3,11 +3,11 @@ package breakout
 import rl "vendor:raylib"
 
 Block_Color :: enum {
-    Yellow,
-    Green,
-    Orange,
-    Red,
-    Purple,
+    Yellow      = 0,
+    Green       = 1,
+    Orange      = 2,
+    Red         = 3,
+    Purple      = 4,
 }
 
 row_colors := [NUM_BLOCKS_Y]Block_Color {
@@ -62,7 +62,7 @@ Game_Resources :: struct {
     hit_paddle_sound            : rl.Sound,
     game_over_sound             : rl.Sound,
     game_win_sound              : rl.Sound,
-    block_texture               : [Block_Color]rl.Texture2D,
+    block_textures              : [Block_Color][BLOCK_VARIATIONS]rl.Texture2D,
     blocks_atlas_texture        : rl.Texture2D,
     glass_break_1               : rl.Sound,
     glass_break_2               : rl.Sound,
@@ -74,6 +74,7 @@ Game_Resources :: struct {
 
 Block :: struct {
     active                      : bool,
+    color                       : Block_Color,
     variation                   : int,
     health                      : int,
 }
