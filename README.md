@@ -1,4 +1,6 @@
-# Breakout "kind" game 
+# Breakout prototype in Odin lang
 Learning Odin lang with the excelent tutorial from: https://youtu.be/vfgZOEvO0kM
 
-Music by Hyper by Magic_Spark
+![Odin_Breakout](https://github.com/f43792/Odin-Breakout/blob/master/rsc/Screenshot.jpg)
+
+Music Hyper by Magic_Spark
