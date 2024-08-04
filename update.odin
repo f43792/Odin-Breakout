@@ -142,7 +142,7 @@ update :: proc(gs: ^Game_State) {
 
         block_x_loop: for x in 0..< NUM_BLOCKS_X {
             for y in 0..< NUM_BLOCKS_Y {
-                if gs.blocks[x][y] == false {
+                if gs.blocks[x][y].active == false {
                     continue
                 }
 
@@ -186,7 +186,7 @@ update :: proc(gs: ^Game_State) {
                         gs.ball_dir = reflect(gs.ball_dir, collision_normal)
                     }
 
-                    gs.blocks[x][y] = false
+                    gs.blocks[x][y].active = false
                     row_color := row_colors[y]
 
                     new_score := block_color_score[row_color] + gs.last_block_score

@@ -41,7 +41,7 @@ render :: proc(gs: ^Game_State) {
 
     for x in 0..<NUM_BLOCKS_X {
         for y in 0..<NUM_BLOCKS_Y {
-            if gs.blocks[x][y] == false {
+            if gs.blocks[x][y].active == false {
                 continue
             }
 

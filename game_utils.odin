@@ -57,6 +57,7 @@ init_game :: proc(gs: ^Game_State) {
     
     gs.resources.ball_texture           = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "ball.png"})))
     gs.resources.paddle_texture         = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "new_paddle.png"})))
+    gs.resources.blocks_atlas_texture   = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "Blocks_atlas.png"})))
     gs.resources.block_texture[.Red]    = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Red]})))
     gs.resources.block_texture[.Orange] = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Orange]})))
     gs.resources.block_texture[.Yellow] = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, block_color_textures[.Yellow]})))
@@ -125,7 +126,7 @@ restart :: proc(gs: ^Game_State) {
 
     for x in 0..<NUM_BLOCKS_X {
         for y in 0..<NUM_BLOCKS_Y {
-            gs.blocks[x][y] = true
+            gs.blocks[x][y].active = true
         }
     }
 

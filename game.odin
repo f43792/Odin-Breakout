@@ -63,6 +63,7 @@ Game_Resources :: struct {
     game_over_sound             : rl.Sound,
     game_win_sound              : rl.Sound,
     block_texture               : [Block_Color]rl.Texture2D,
+    blocks_atlas_texture        : rl.Texture2D,
     glass_break_1               : rl.Sound,
     glass_break_2               : rl.Sound,
     glass_break_3               : rl.Sound,
@@ -71,8 +72,14 @@ Game_Resources :: struct {
     music_volume                : f32,
 }
 
+Block :: struct {
+    active                      : bool,
+    variation                   : int,
+    health                      : int,
+}
+
 Game_State :: struct {
-    blocks                      : [NUM_BLOCKS_X][NUM_BLOCKS_Y]bool,
+    blocks                      : [NUM_BLOCKS_X][NUM_BLOCKS_Y]Block,
     paddle_pos_x                : f32,
     show_info                   : bool, // = false,
     ball_pos                    : rl.Vector2,

@@ -14,7 +14,7 @@ remaining_blocks :: proc(gs: ^Game_State) -> int {
     total_blocks_found : int = 0
     for x in 0..<NUM_BLOCKS_X {
         for y in 0..<NUM_BLOCKS_Y {
-            if gs.blocks[x][y] == true {
+            if gs.blocks[x][y].active == true {
                 total_blocks_found += 1
             }
         }
@@ -27,7 +27,7 @@ block_exists :: proc(gs: ^Game_State, x, y: int) -> bool {
         return false
     }
 
-    return gs.blocks[x][y]
+    return gs.blocks[x][y].active
 }
 
 reflect :: proc(dir, normal: rl.Vector2, inc_ball_speed: bool = true) -> rl.Vector2 {

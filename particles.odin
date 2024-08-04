@@ -112,7 +112,7 @@ update_particles :: proc(gs: ^Game_State) {
 
                 block_x_loop: for x in 0..< NUM_BLOCKS_X {
                     for y in 0..< NUM_BLOCKS_Y {
-                        if gs.blocks[x][y] == false {
+                        if gs.blocks[x][y].active == false {
                             continue
                         }
 
