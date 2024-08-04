@@ -21,6 +21,8 @@ check_game_status :: proc(gs: ^Game_State) {
             gs.game_win = true
             gs.fallow_paddle = true
             BALL_INCREMENT_SPEED = 0.0
+            rl.StopMusicStream(gs.resources.music_1)
+            gs.can_play_music = false
             rl.PlaySound(gs.resources.game_win_sound)
         }
         win(gs)
@@ -50,7 +52,7 @@ init_game :: proc(gs: ^Game_State) {
     gs.resources.glass_break_2          = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "glass_2.wav"})))
     gs.resources.glass_break_3          = rl.LoadSound(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "glass_3.wav"})))
 
-    gs.resources.music_1                = rl.LoadMusicStream(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "music_1.wav"})))
+    gs.resources.music_1                = rl.LoadMusicStream(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "Hyper.wav"})))
     
     gs.resources.ball_texture           = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "ball.png"})))
     gs.resources.paddle_texture         = rl.LoadTexture(strings.clone_to_cstring(strings.concatenate({RSC_FOLDER, "new_paddle.png"})))

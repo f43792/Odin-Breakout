@@ -20,9 +20,9 @@ render :: proc(gs: ^Game_State) {
     rl.BeginMode2D(camera)
 
     if gs.show_info {
-        rl.DrawFPS(10, 10)
-        DT_Text := fmt.ctprintf("dt: %.5f", gs.DT)
-        rl.DrawText(DT_Text, 10, 30, 20, {24, 24, 42, 255})
+        rl.DrawFPS(110, 8)
+        // DT_Text := fmt.ctprintf("dt: %.5f", gs.DT)
+        // rl.DrawText(DT_Text, 10, 30, 20, {24, 24, 42, 255})
     }
 
     blend := gs.accumulated_time / gs.DT
@@ -73,6 +73,8 @@ render :: proc(gs: ^Game_State) {
     rl.EndMode2D()
     rl.EndDrawing()
 
-    rl.UpdateMusicStream(gs.resources.music_1)
+    if gs.can_play_music {
+        rl.UpdateMusicStream(gs.resources.music_1)
+    }
 
 }
