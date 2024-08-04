@@ -22,6 +22,7 @@ check_game_status :: proc(gs: ^Game_State) {
             gs.fallow_paddle = true
             BALL_INCREMENT_SPEED = 0.0
             rl.StopMusicStream(gs.resources.music_1)
+            rl.SeekMusicStream(gs.resources.music_1, 0.0)
             gs.can_play_music = false
             rl.PlaySound(gs.resources.game_win_sound)
         }
