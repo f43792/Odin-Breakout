@@ -25,6 +25,11 @@ render :: proc(gs: ^Game_State) {
         // rl.DrawText(DT_Text, 10, 30, 20, {24, 24, 42, 255})
     }
 
+    if !gs.started {
+        XPos := rl.MeasureText(START_TEXT, 12)
+        rl.DrawText(START_TEXT, SCREEN_SIZE / 2 - XPos / 2, BALL_START_Y + 30, 12, rl.WHITE)
+    }
+
     blend := gs.accumulated_time / gs.DT
     gs.ball_render_pos = math.lerp(gs.previous_ball_position, gs.ball_pos, blend)
     gs.paddle_render_pos_x = math.lerp(gs.previous_paddle_position_x, gs.paddle_pos_x, blend)
