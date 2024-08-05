@@ -71,7 +71,7 @@ choose_variations :: proc() -> int {
     // res = rand.int_max(BLOCK_VARIATIONS)
     pick = rand.float32()
 
-    if pick <= 0.95 {
+    if pick <= 0.96 {
         res = 0
     } else {
         res = rand.int_max(4) + 1
